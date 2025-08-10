@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quản Lý Cho Thuê Phòng</title>
+  <link rel="stylesheet" href="style2.css" />
+</head>
+<body>
+    <header class="navbar">
+  <div class="logo">🏨 Staycation</div>
+  <nav class="nav-links">
+    <a href="#">Trang chủ</a>
+    <a href="#">Quản lý phòng</a>
+    <a href="#">Thống kê</a>
+    <a href="#">Hồ sơ</a>
+    <a href="#" onclick="logout()">Đăng xuất</a>
+  </nav>
+</header>
+  <div class="container">
+    <h1 class="title">Quản Lý Cho Thuê Phòng</h1>
+
+    <form id="roomForm" class="form">
+      <div class="form-group">
+        <label for="name">Tên phòng</label>
+        <input id="name" type="text" placeholder="Nhập tên hoặc mã phòng" />
+      </div>
+
+      <div class="form-group">
+        <label for="category">Loại phòng</label>
+        <input id="category" type="text" placeholder="Ví dụ: Phòng đơn, Phòng đôi" />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Mô tả phòng</label>
+        <input id="description" type="text" placeholder="Mô tả tiện nghi, diện tích..." />
+      </div>
+
+      <div class="form-group">
+        <label for="price">Giá thuê (VNĐ/ngày)</label>
+        <input id="price" type="number" placeholder="Nhập giá thuê"/>
+      </div>
+
+      <button type="button" onclick="addProduct()" id="submitBtn">Thêm phòng</button>
+    </form>
+
+    <h2 class="subtitle">Danh sách phòng</h2>
+    <div id="productList" class="product-list"></div>
+  </div>
+
+  <script src="script6.js"></script>
+</body>
+</html>
+

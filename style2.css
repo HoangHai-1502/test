@@ -1,0 +1,181 @@
+/* Reset cơ bản */
+* {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: #f0f4f8;
+  color: #333;
+  min-height: 100vh;
+}
+/* --- Thanh điều hướng trên cùng --- */
+.navbar {
+  width: 100%;
+  background-color: #2c3e50;
+  color: white;
+  padding: 15px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 25px;
+  font-size: 1.05rem;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #f1c40f;
+}
+.container {
+  max-width: 900px;
+  margin: 30px auto 0 auto;
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #34495e;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 8px;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 30px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #34495e;
+}
+
+input {
+  padding: 10px 12px;
+  border: 1.8px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 6px #a6c8ff;
+}
+
+button#submitBtn {
+  grid-column: 1 / -1;
+  background-color: #3498db;
+  color: white;
+  font-weight: 700;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+button#submitBtn:hover {
+  background-color: #2980b9;
+}
+
+/* Danh sách phòng */
+.product-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.product {
+  background: #ecf0f1;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.product:hover {
+  transform: scale(1.02);
+}
+
+.product strong {
+  font-size: 1.3rem;
+  color: #2c3e50;
+}
+
+.product p {
+  margin: 6px 0;
+  color: #555;
+  font-size: 1rem;
+}
+
+.product .price {
+  font-weight: 700;
+  color: #27ae60;
+  margin-top: 6px;
+}
+
+.product button {
+  margin-top: 12px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-right: 10px;
+}
+
+.product button:first-of-type {
+  background-color: #2980b9;
+  color: #fff;
+}
+
+.product button:first-of-type:hover {
+  background-color: #1c5980;
+}
+
+.product button:last-of-type {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.product button:last-of-type:hover {
+  background-color: #b83227;
+}
