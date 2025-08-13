@@ -73,6 +73,6 @@ function clearForm() {
 }
 function logout() {
     alert("Bạn đã đăng xuất!");
-    window.location.href = "login.html";
+    window.location.href = "../login/login.html";
   }
 renderProducts();

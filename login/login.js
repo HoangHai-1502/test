@@ -22,7 +22,7 @@ form.addEventListener('submit', function (e) {
 
   if (found) {
     alert("Đăng nhập thành công!");
-     window.location.href = "index2.html";
+     window.location.href = "../main/index2.html";
 
   } else {
     alert("Sai thông tin đăng nhập!");
