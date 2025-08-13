@@ -32,6 +32,6 @@ form.addEventListener('submit', function (e) {
   alert("Đăng ký thành công!");
   form.reset();
 
-  window.location.href = "login.html";
+  window.location.href = "../login/login.html";
 });
 
