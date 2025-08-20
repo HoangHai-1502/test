@@ -32,7 +32,7 @@ app.post("/api/register", async (req, res) => {
     // insert user mới
     await pool.request()
       .input("username", sql.VarChar, username)
-      .input("password", sql.VarChar, password) // ⚠️ chưa mã hóa
+      .input("password", sql.VarChar, password) //  chưa mã hóa
       .query(
         `INSERT INTO users (username, password, role, create_at) 
          VALUES (@username, @password, 'user', GETDATE())`
@@ -100,4 +100,4 @@ app.post("/api/login", async (req, res) => {
 
 
 const PORT = 5000;
-app.listen(PORT, () => console.log(`✅ Server chạy tại http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server chạy tại http://localhost:${PORT}`));
