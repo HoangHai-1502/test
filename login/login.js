@@ -1,30 +1,37 @@
 const form = document.getElementById('loginForm');
 
-form.addEventListener('submit', function (e) {
+form.addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  const firstName = document.getElementById('firstName').value;
-  const lastName = document.getElementById('lastName').value;
+  const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
 
-  if (!firstName || !lastName || !password) {
+  if (!username || !password) {
     alert("Vui lòng điền đầy đủ thông tin!");
     return;
   }
 
-  const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+  try {
+    const res = await fetch("http://localhost:5000/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
+    });
 
-  const found = accounts.find(acc =>
-    acc.firstName === firstName &&
-    acc.lastName === lastName &&
-    acc.password === password
-  );
+    const data = await res.json();
 
-  if (found) {
-    alert("Đăng nhập thành công!");
-     window.location.href = "../main/index2.html";
+    if (res.ok) {
+      alert(data.message);
 
-  } else {
-    alert("Sai thông tin đăng nhập!");
+      // 👉 lưu user vào localStorage nếu cần
+      localStorage.setItem("currentUser", JSON.stringify(data.user));
+
+      // chuyển sang trang chính
+      window.location.href = "../main/index2.html";
+    } else {
+      alert("Sai thông tin đăng nhập!");
+    }
+  } catch (err) {
+    alert("Không thể kết nối server");
   }
 });
