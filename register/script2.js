@@ -1,14 +1,11 @@
-const form = document.getElementById('registerForm');
-
-form.addEventListener('submit', function (e) {
+registerForm.addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  const firstName = document.getElementById('firstName').value;
-  const lastName = document.getElementById('lastName').value;
+  const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
   const confirmPassword = document.getElementById('confirmPassword').value;
 
-  if (!firstName || !lastName || !password || !confirmPassword) {
+  if (!username || !password || !confirmPassword) {
     alert("Vui lòng điền đầy đủ thông tin!");
     return;
   }
@@ -18,20 +15,23 @@ form.addEventListener('submit', function (e) {
     return;
   }
 
-  const newAccount = {
-    firstName,
-    lastName,
-    password
-  };
-  let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+  try {
+    const res = await fetch("http://localhost:5000/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
+    });
 
-  accounts.push(newAccount);
-  
-  localStorage.setItem("accounts", JSON.stringify(accounts));
+    const data = await res.json();
 
-  alert("Đăng ký thành công!");
-  form.reset();
-
-  window.location.href = "../login/login.html";
+    if (res.ok) {
+      alert(data.message);
+      form.reset();
+      window.location.href = "../login/login.html";
+    } else {
+      alert("Lỗi: " + data.message);
+    }
+  } catch (err) {
+    alert("Không thể kết nối server");
+  }
 });
-
