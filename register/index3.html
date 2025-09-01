@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <title>Đăng ký người dùng</title>
 </head>
-<body style="">
-  <h2>Đăng Ký.</h2>
+<body>
+  <h2>Đăng Ký</h2>
   <form id="registerForm">
     <label for="username">Username:</label><br>
     <input type="text" id="username"><br><br>
@@ -15,6 +15,10 @@
 
     <label for="confirmPassword">Nhập lại mật khẩu:</label><br>
     <input type="password" id="confirmPassword"><br><br>
+
+    <label>Vai trò:</label><br>
+    <input type="radio" name="role" value="admin"> Người cho thuê <br>
+    <input type="radio" name="role" value="user" checked> Người thuê <br><br>
 
     <button type="submit">Đăng ký</button>
   </form>

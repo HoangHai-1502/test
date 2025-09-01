@@ -7,19 +7,22 @@
   <link rel="stylesheet" href="style2.css" />
 </head>
 <body>
-    <header class="navbar">
-  <div class="logo">🏨 Staycation</div>
-  <nav class="nav-links">
-    <a href="#">Trang chủ</a>
-    <a href="#">Quản lý phòng</a>
-    <a href="#">Thống kê</a>
-    <a href="#">Hồ sơ</a>
-    <a href="#" onclick="logout()">Đăng xuất</a>
-  </nav>
-</header>
+  <!-- Thanh navbar -->
+  <header class="navbar">
+    <div class="logo">🏨 Staycation</div>
+    <nav class="nav-links">
+      <a href="#">Trang chủ</a>
+      <a href="#">Quản lý phòng</a>
+      <a href="#">Thống kê</a>
+      <a href="#">Hồ sơ</a>
+      <a href="#" onclick="logout()">Đăng xuất</a>
+    </nav>
+  </header>
+
   <div class="container">
     <h1 class="title">Quản Lý Cho Thuê Phòng</h1>
 
+    <!-- Form thêm/sửa phòng -->
     <form id="roomForm" class="form">
       <div class="form-group">
         <label for="name">Tên phòng</label>
@@ -41,14 +44,16 @@
         <input id="price" type="number" placeholder="Nhập giá thuê"/>
       </div>
 
-      <button type="button" onclick="addProduct()" id="submitBtn">Thêm phòng</button>
+      <button type="button" onclick="addRoom()" id="submitBtn">Thêm phòng</button>
     </form>
 
+    <!-- Chỗ hiển thị thông báo -->
+    <p id="message" style="color: green; font-weight: bold; margin-top: 10px;"></p>
+
     <h2 class="subtitle">Danh sách phòng 📃</h2>
-    <div id="productList" class="product-list"></div>
+    <div id="roomList" class="product-list"></div>
   </div>
 
   <script src="script6.js"></script>
 </body>
 </html>
-

@@ -3,8 +3,8 @@ const form = document.getElementById('loginForm');
 form.addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
 
   if (!username || !password) {
     alert("Vui lòng điền đầy đủ thông tin!");
@@ -23,13 +23,20 @@ form.addEventListener('submit', async function (e) {
     if (res.ok) {
       alert(data.message);
 
-      // 👉 lưu user vào localStorage nếu cần
+      // 👉 Lưu token và user vào localStorage
+      
+      localStorage.setItem("token", data.token);   // JWT
       localStorage.setItem("currentUser", JSON.stringify(data.user));
 
-      // chuyển sang trang chính
-      window.location.href = "../main/index2.html";
+      // Chuyển sang trang chính
+      if (data.user.role === "admin") {
+        window.location.href = "../main/index2.html";   // admin
+      } else {
+        window.location.href = "../main/home.html";  // user
+      }
+
     } else {
-      alert("Sai thông tin đăng nhập!");
+      alert(data.message || "Sai thông tin đăng nhập!");
     }
   } catch (err) {
     alert("Không thể kết nối server");

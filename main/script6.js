@@ -1,7 +1,26 @@
-let products = JSON.parse(localStorage.getItem("products")) || [];
 let editingIndex = -1;
+let editingId = null; // lưu id khi edit
+let rooms = [];
 
-function addProduct() {
+// Lấy token từ localStorage (giả sử bạn lưu token sau khi login)
+const token = localStorage.getItem("token");
+
+// Hàm fetch danh sách phòng
+async function fetchRooms() {
+  try {
+    const res = await fetch("http://localhost:5000/api/rooms", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    rooms = await res.json();
+    renderRooms();
+  } catch (err) {
+    console.error(err);
+    showMessage("Lỗi khi tải danh sách phòng");
+  }
+}
+
+// Hàm thêm hoặc lưu phòng
+async function addRoom() {
   const name = document.getElementById("name").value;
   const category = document.getElementById("category").value;
   const description = document.getElementById("description").value;
@@ -12,67 +31,128 @@ function addProduct() {
     return;
   }
 
-  const product = { name, category, description, price };
+  const room = {
+    title: name,
+    body: description,
+    status: category,
+    price: parseInt(price)
+  };
 
-  if (editingIndex === -1) {
-    products.push(product);
-  } else {
-    products[editingIndex] = product;
-    editingIndex = -1;
-    document.querySelector("button").innerText = "Thêm";
+  try {
+    if (editingIndex === -1) {
+      // Thêm mới
+      const res = await fetch("http://localhost:5000/api/rooms", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(room)
+      });
+      const data = await res.json();
+      showMessage(data.message);
+    } else {
+      // Cập nhật
+      const res = await fetch(`http://localhost:5000/api/rooms/${editingId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(room)
+      });
+      const data = await res.json();
+      showMessage(data.message);
+      editingIndex = -1;
+      editingId = null;
+      document.getElementById("submitBtn").innerText = "Thêm phòng";
+    }
+
+    clearForm();
+    fetchRooms();
+  } catch (err) {
+    console.error(err);
+    showMessage("Lỗi server khi thao tác phòng");
   }
-
-  localStorage.setItem("products", JSON.stringify(products));
-  renderProducts();
-  clearForm();
 }
 
-function editProduct(index) {
-  const p = products[index];
-  document.getElementById("name").value = p.name;
-  document.getElementById("category").value = p.category;
-  document.getElementById("description").value = p.description;
-  document.getElementById("price").value = p.price;
+// Hàm sửa phòng
+function editRoom(index) {
+  const r = rooms[index];
+  document.getElementById("name").value = r.title;
+  document.getElementById("category").value = r.status;
+  document.getElementById("description").value = r.body;
+  document.getElementById("price").value = r.price;
   editingIndex = index;
-  document.querySelector("button").innerText = "Lưu";
-}
-function deleteProduct(index) {
-  products.splice(index, 1);
-  localStorage.setItem("products", JSON.stringify(products));
-  renderProducts();
+  editingId = r.id;
+  document.getElementById("submitBtn").innerText = "Lưu";
 }
 
-function renderProducts() {
-  const list = document.getElementById("productList");
+// Hàm xoá phòng
+async function deleteRoom(index) {
+  if (!confirm("Bạn có chắc muốn xoá phòng này?")) return;
+
+  const id = rooms[index].id;
+
+  try {
+    const res = await fetch(`http://localhost:5000/api/rooms/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    showMessage(data.message);
+    fetchRooms();
+  } catch (err) {
+    console.error(err);
+    showMessage("Lỗi server khi xoá phòng");
+  }
+}
+
+// Render danh sách phòng
+function renderRooms() {
+  const list = document.getElementById("roomList");
   list.innerHTML = "";
 
-  for (let i = 0; i < products.length; i++) {
-    const p = products[i];
+  for (let i = 0; i < rooms.length; i++) {
+    const r = rooms[i];
     const div = document.createElement("div");
     div.className = "product";
 
     div.innerHTML = `
-      <strong>${p.name}</strong><br>
-      Danh mục: ${p.category}<br>
-      Mô tả: ${p.description}<br>
-      Giá bán: ${p.price} VND<br>
-      <button onclick="editProduct(${i})">Sửa</button>
-      <button onclick="deleteProduct(${i})">Xoá</button>
+      <strong>${r.title}</strong><br>
+      Loại phòng: ${r.status}<br>
+      Mô tả: ${r.body}<br>
+      Giá thuê: ${r.price} VND<br>
+      <button onclick="editRoom(${i})">Sửa</button>
+      <button onclick="deleteRoom(${i})">Xoá</button>
     `;
 
     list.appendChild(div);
   }
 }
 
+// Xoá dữ liệu trong form
 function clearForm() {
   document.getElementById("name").value = "";
   document.getElementById("category").value = "";
   document.getElementById("description").value = "";
   document.getElementById("price").value = "";
-  document.querySelector("button").innerText = "Thêm";
+  document.getElementById("submitBtn").innerText = "Thêm phòng";
 }
+
+// Hiển thị thông báo
+function showMessage(msg) {
+  const messageEl = document.getElementById("message");
+  messageEl.innerText = msg;
+  setTimeout(() => { messageEl.innerText = ""; }, 3000);
+}
+
+// Đăng xuất
 function logout() {
-    alert("Bạn đã đăng xuất!");
-    window.location.href = "../login/login.html";
-  }
-renderProducts();
+  alert("Bạn đã đăng xuất!");
+  localStorage.removeItem("token");
+  window.location.href = "../login/login.html";
+}
+
+// Khi load trang
+fetchRooms();

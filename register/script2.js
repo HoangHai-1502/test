@@ -1,9 +1,12 @@
+const registerForm = document.getElementById('registerForm');
+
 registerForm.addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  const confirmPassword = document.getElementById('confirmPassword').value;
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const confirmPassword = document.getElementById('confirmPassword').value.trim();
+  const role = document.querySelector('input[name="role"]:checked').value;
 
   if (!username || !password || !confirmPassword) {
     alert("Vui lòng điền đầy đủ thông tin!");
@@ -19,14 +22,14 @@ registerForm.addEventListener('submit', async function (e) {
     const res = await fetch("http://localhost:5000/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password, role })
     });
 
     const data = await res.json();
 
     if (res.ok) {
       alert(data.message);
-      form.reset();
+      registerForm.reset();
       window.location.href = "../login/login.html";
     } else {
       alert("Lỗi: " + data.message);
