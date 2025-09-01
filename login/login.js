@@ -24,21 +24,24 @@ form.addEventListener('submit', async function (e) {
       alert(data.message);
 
       // 👉 Lưu token và user vào localStorage
-      
-      localStorage.setItem("token", data.token);   // JWT
+      localStorage.setItem("token", data.token);   
       localStorage.setItem("currentUser", JSON.stringify(data.user));
 
-      // Chuyển sang trang chính
-      if (data.user.role === "admin") {
-        window.location.href = "../main/index2.html";   // admin
+      // Chuyển hướng dựa trên role
+      // owner => quản lý phòng, renter => xem home
+      if (data.user.role === "owner") {
+        window.location.href = "../main/index2.html";   // trang quản lý phòng
+      } else if (data.user.role === "renter") {
+        window.location.href = "../main/home.html";     // trang home cho người thuê
       } else {
-        window.location.href = "../main/home.html";  // user
+        window.location.href = "../main/home.html";     // fallback
       }
 
     } else {
       alert(data.message || "Sai thông tin đăng nhập!");
     }
   } catch (err) {
+    console.error(err);
     alert("Không thể kết nối server");
   }
 });

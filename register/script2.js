@@ -3,12 +3,16 @@ const registerForm = document.getElementById('registerForm');
 registerForm.addEventListener('submit', async function (e) {
   e.preventDefault();
 
+  const fullname = document.getElementById('fullname').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value.trim();
   const confirmPassword = document.getElementById('confirmPassword').value.trim();
-  const role = document.querySelector('input[name="role"]:checked').value;
+  const role = document.querySelector('input[name="role"]:checked')?.value;
 
-  if (!username || !password || !confirmPassword) {
+  // kiểm tra thông tin bắt buộc
+  if (!fullname || !username || !email || !password || !confirmPassword || !role) {
     alert("Vui lòng điền đầy đủ thông tin!");
     return;
   }
@@ -22,7 +26,7 @@ registerForm.addEventListener('submit', async function (e) {
     const res = await fetch("http://localhost:5000/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password, role })
+      body: JSON.stringify({ fullname, phone, email, username, password, role })
     });
 
     const data = await res.json();
@@ -35,6 +39,7 @@ registerForm.addEventListener('submit', async function (e) {
       alert("Lỗi: " + data.message);
     }
   } catch (err) {
+    console.error(err);
     alert("Không thể kết nối server");
   }
 });

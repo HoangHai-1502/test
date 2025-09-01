@@ -6,7 +6,7 @@ const config = {
   password: "123456",  // password
   server: "localhost",
   port: 50744,     // tên server SQL
-  database: "my_web",// tên database
+  database: "myweb",// tên database
   options: {
     encrypt: false,        // dùng true nếu Azure
     trustServerCertificate: true // bỏ check SSL khi local
